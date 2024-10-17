@@ -1,125 +1,45 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  // 아래 runApp은 import 'package:flutter/material.dart'; 에서 import 된 것임
+  // void runApp(Widget app)
+  // Widget이란? -> 레고 블럭
+  // Widget들을 합치는 방식으로 앱을 만듦.
+  // 앱의 UI를 만드는 레고 블럭
+  runApp(App());
+  // 모든 화면, 버튼 등등 모든 것들이 App이라는 이름을 갖는 Widget으로부터 올 것임.
+  // 이 말은 즉 'App' Widget은 우리 앱의 root라는 것임.
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// Widget으로 만들기 위해서는...?
+// flutter SDK에 있는 3개의 core Widget중에 하나를 extends(상속)받아야 함.
+// 여기서는 StatelessWidget을 상속받음.
 
-  // This widget is the root of your application.
+// 모든 Widget은 build 메소드를 구현해야 함.
+// build 메소드가 뭐임? -> Widget의 UI를 build(만드는) 것
+class App extends StatelessWidget {
+  // @override : 부모 class에 이미 있는 method를 override(덮어씌우는 것)
+  // 부모 class에 있는 이미 있는 method 없애버림 -> 아래에 있는 함수로 대체
   @override
+  // build도 Widget을 return해야 함.
+  // build는 BuildContext 타입의 context라는 parameter를 받아옴. -> 일단 지금은 무시하자.
   Widget build(BuildContext context) {
+    // 앱의 root Widget은 두 개의 옵션 중 하나를 return해야 함.(기본 UI 설정과 같은 재료를 선택해야 함.)
+    // 1. MaterialApp -> 구글의 디자인 시스템
+    // 2. CupertinoApp -> 애플의 디자인 시스템(iOS)
+    // flutter는 구글꺼라서 보통 MaterialApp이 더 이쁘다고 한다...
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+      // flutter에는 scaffold가 있어야 한다는 규칙이 있음.
+      // 이 앱의 홈에다가 scaffold를 넣자.
+      home: Scaffold(
+        // class 하나 쓸 때마다 comma를 적어주자. 그러면 VSCode가 이쁘게 정리해준다.
+        appBar: AppBar(
+          title: Text('Hello flutter!'),
+        ),
+        body: Center(
+          child: Text('Hello world!'),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
