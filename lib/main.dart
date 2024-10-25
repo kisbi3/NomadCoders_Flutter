@@ -50,7 +50,7 @@ class App extends StatelessWidget {
                 ],
               ),
               const SizedBox(
-                height: 120,
+                height: 60,
               ),
               Text(
                 'Total balance',
@@ -90,7 +90,7 @@ class App extends StatelessWidget {
                 ],
               ),
               const SizedBox(
-                height: 100,
+                height: 60,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -117,6 +117,8 @@ class App extends StatelessWidget {
                 height: 20,
               ),
               Container(
+                // clipBehavior: 어떤 아이템이 overflow가 되었을 때 어떻게 동작할지 알려주는 것.
+                clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   color: const Color(0xFF1F2123),
                   borderRadius: BorderRadius.circular(25),
@@ -124,6 +126,7 @@ class App extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(30),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,6 +161,20 @@ class App extends StatelessWidget {
                             ],
                           ),
                         ],
+                      ),
+                      // 그냥 size를 키우면 카드가 같이 커진다.
+                      // transform.scale으로 크기만 키우자.
+                      Transform.scale(
+                        scale: 2.2,
+                        // transform.translate으로 icon 위치 이동하기.
+                        child: Transform.translate(
+                          offset: const Offset(-5, 12),
+                          child: const Icon(
+                            Icons.euro_rounded,
+                            color: Colors.white,
+                            size: 88,
+                          ),
+                        ),
                       ),
                     ],
                   ),
