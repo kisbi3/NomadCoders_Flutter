@@ -14,37 +14,48 @@ class App extends StatefulWidget {
 
 // state: 위젯에 들어갈 데이터와 UI를 넣는 곳
 class _AppState extends State<App> {
-  int counter = 0;
-  void onClicked() {
-    counter = counter + 1;
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: const Color(0xFFF4EDDB),
+      theme: ThemeData(
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(
+            color: Colors.red,
+          ),
+        ),
+      ),
+      home: const Scaffold(
+        backgroundColor: Color(0xFFF4EDDB),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Click Count',
-                style: TextStyle(fontSize: 30),
-              ),
-              Text(
-                '$counter',
-                style: const TextStyle(fontSize: 30),
-              ),
-              IconButton(
-                iconSize: 40,
-                onPressed: onClicked,
-                icon: const Icon(Icons.add_box_rounded),
-              ),
+              MyLargeTitle(),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class MyLargeTitle extends StatelessWidget {
+  const MyLargeTitle({
+    super.key,
+  });
+
+  @override
+  // context: 모든 부모 요소들에 대한 정보
+  // 위젯 트리 안에서 위젯의 위치를 다룸.
+  // 위젯 트리에서 위젯의 위치를 제공하고, 이를 통해 상위 요소 데이터에 접근 가능.
+  Widget build(BuildContext context) {
+    return Text(
+      'My Large Title',
+      style: TextStyle(
+          // ! : null이 아니라고 강력하게 확신한다는 의미.
+          // ? : null이 아니라면 사용하라는 의미.
+          fontSize: 30,
+          color: Theme.of(context).textTheme.titleLarge!.color),
     );
   }
 }
