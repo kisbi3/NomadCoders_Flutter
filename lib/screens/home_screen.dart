@@ -55,6 +55,15 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  // reset 함수
+  void reset() {
+    timer.cancel();
+    setState(() {
+      isRunning = false;
+      totalSeconds = twentyFiveMinutes;
+    });
+  }
+
   // 초를 (분 : 초) 로 나오도록 변경하는 함수.
   String format(int seconds) {
     var duration = Duration(seconds: seconds);
@@ -88,15 +97,27 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Flexible(
             flex: 3,
-            child: Center(
-              child: IconButton(
-                iconSize: 120,
-                color: Theme.of(context).cardColor,
-                onPressed: isRunning ? onPausePressed : onStartPressed,
-                icon: Icon(isRunning
-                    ? Icons.pause_circle_outline
-                    : Icons.play_circle_outline),
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: IconButton(
+                    iconSize: 120,
+                    color: Theme.of(context).cardColor,
+                    onPressed: isRunning ? onPausePressed : onStartPressed,
+                    icon: Icon(isRunning
+                        ? Icons.pause_circle_outline
+                        : Icons.play_circle_outline),
+                  ),
+                ),
+                Center(
+                  child: IconButton(
+                      iconSize: 60,
+                      color: Theme.of(context).cardColor,
+                      onPressed: reset,
+                      icon: const Icon(Icons.stop_circle_outlined)),
+                )
+              ],
             ),
           ),
           Flexible(
