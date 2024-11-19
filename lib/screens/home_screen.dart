@@ -13,6 +13,8 @@ class _HomeScreenState extends State<HomeScreen> {
   int totalSeconds = 1500;
   // 사용자가 버튼을 누를 때만 타이머가 생성되게 할 예정이라 late로 초기화를 미루자.
   late Timer timer;
+  // 일시정지 버튼을 만들기 위함.
+  bool isRunning = false;
 
   void onTick(Timer timer) {
     // state 변경
@@ -25,6 +27,17 @@ class _HomeScreenState extends State<HomeScreen> {
     // Timer -> 정해진 간격에 한번씩 함수 실행
     // 1초마다 onTick 함수 실행
     timer = Timer.periodic(const Duration(seconds: 1), onTick);
+    setState(() {
+      isRunning = true;
+    });
+  }
+
+  // 시간 멈추게 하기
+  void onPausePressed() {
+    timer.cancel();
+    setState(() {
+      isRunning = false;
+    });
   }
 
   @override
@@ -58,8 +71,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: IconButton(
                 iconSize: 120,
                 color: Theme.of(context).cardColor,
-                onPressed: onStartPressed,
-                icon: const Icon(Icons.play_circle_outline),
+                onPressed: isRunning ? onPausePressed : onStartPressed,
+                icon: Icon(isRunning
+                    ? Icons.pause_circle_outline
+                    : Icons.play_circle_outline),
               ),
             ),
           ),
