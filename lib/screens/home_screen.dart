@@ -10,17 +10,32 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int totalSeconds = 1500;
+  // 25분을 입력하는 것에 대해서 실수하지 않기 위해서 상수를 만들어 버리자.
+  static const twentyFiveMinutes = 1500;
+  int totalSeconds = twentyFiveMinutes;
   // 사용자가 버튼을 누를 때만 타이머가 생성되게 할 예정이라 late로 초기화를 미루자.
   late Timer timer;
   // 일시정지 버튼을 만들기 위함.
   bool isRunning = false;
+  // Pomodoro 횟수 세는 변수
+  int totalPomodoros = 0;
 
   void onTick(Timer timer) {
-    // state 변경
-    setState(() {
-      totalSeconds = totalSeconds - 1;
-    });
+    // 0초가 되면...
+    if (totalSeconds == 0) {
+      // Pomodoro 숫자 증가 + 초기화
+      setState(() {
+        totalPomodoros = totalPomodoros + 1;
+        isRunning = false;
+        totalSeconds = twentyFiveMinutes;
+      });
+      timer.cancel();
+    } else {
+      // state 변경
+      setState(() {
+        totalSeconds = totalSeconds - 1;
+      });
+    }
   }
 
   void onStartPressed() {
@@ -40,6 +55,12 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  // 초를 (분 : 초) 로 나오도록 변경하는 함수.
+  String format(int seconds) {
+    var duration = Duration(seconds: seconds);
+    return duration.toString().split(".").first.substring(2, 7);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
               alignment: Alignment.bottomCenter,
               child: Text(
-                '$totalSeconds',
+                format(totalSeconds),
                 style: TextStyle(
                   color: Theme.of(context).cardColor,
                   fontSize: 89,
@@ -95,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Pomodors',
+                          'Pomodoros',
                           style: TextStyle(
                             fontSize: 20,
                             color: Theme.of(context)
@@ -105,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Text(
-                          '0',
+                          '$totalPomodoros',
                           style: TextStyle(
                             fontSize: 58,
                             color: Theme.of(context)
