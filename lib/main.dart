@@ -5,23 +5,18 @@ void main() {
   runApp(const App());
 }
 
-// 위젯 그 자체
 class App extends StatelessWidget {
+  // 이 위젯의 key를 stateless widget이라는 슈퍼클래스에 보낸 것임.
   const App({super.key});
+
+  // 위젯은 ID같은 식별자 역할을 하는 key가 있다.
+  // 이걸로 Flutter가 위젯을 빠르게 찾는 것임.
+  // 사실 상관 없음.
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xffE7626C),
-        textTheme: const TextTheme(
-          headlineLarge: TextStyle(
-            color: Color(0xff232B55),
-          ),
-        ),
-        cardColor: const Color(0xffF4EDDB),
-      ),
-      home: const HomeScreen(),
+    return const MaterialApp(
+      home: HomeScreen(),
     );
   }
 }
