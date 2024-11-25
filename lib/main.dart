@@ -3,8 +3,6 @@ import 'package:toonflix/screens/home_screen.dart';
 import 'package:toonflix/services/api_service.dart';
 
 void main() {
-  // 정상작동 하는지 확인
-  ApiService().getTodaysToons();
   runApp(const App());
 }
 

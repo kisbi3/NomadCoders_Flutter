@@ -1,11 +1,17 @@
 // package를 찾아보려면 pub.dev에서 찾아보자.
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:toonflix/models/webtoon_model.dart';
 
 class ApiService {
-  final String baseUrl = "https://webtoon-crawler.nomadcoders.workers.dev";
-  final String today = "today";
+  static const String baseUrl =
+      "https://webtoon-crawler.nomadcoders.workers.dev";
+  static const String today = "today";
 
-  void getTodaysToons() async {
+  static Future<List<WebtoonModel>> getTodaysToons() async {
+    List<WebtoonModel> webtoonInstances = [];
     // 그냥 http.dart 불러오면 get.url()이렇게 불러오면 되는데, 확실히 하기 위해서
     // http로 namespace를 정해서 http.get()으로 불러옴.
 
@@ -22,8 +28,13 @@ class ApiService {
 
     // 200은 성공했다는 뜻.
     if (response.statusCode == 200) {
-      print(response.body);
-      return;
+      // jsonDecode : String -> Json
+      // webtoons : dynamic으로 이루어진 리스트를 반환받으려고 함.
+      final List<dynamic> webtoons = jsonDecode(response.body);
+      for (var webtoon in webtoons) {
+        webtoonInstances.add(WebtoonModel.fromJson(webtoon));
+      }
+      return webtoonInstances;
     }
     throw Error();
   }
