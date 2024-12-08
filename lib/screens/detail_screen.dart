@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:toonflix/models/webtoon_detail_model.dart';
+import 'package:toonflix/services/api_service.dart';
+import 'package:toonflix/models/webtoon_epsiode_model.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   final String title, thumb, id;
+
+  // 아래와 같이 StatelessWidget 상태에서 home_screen.dart처럼은 불가능하다.
+  // Future<WebtoonDetailModel> webtoon = ApiService.getToonById(id);
+  // webtoon property를 초기화 할 때에 다른 property인 id에 접근이 불가능하기 때문.
+  // final String title, thumb, id;
+  // 이 부분은 class의 member들을 정의하고 초기화 하는 것이 끝이기 때문임.
+  // ''' 어떤 property를 초기화 할 때에 다른 properety로는 접근이 불가능함.
+  // 해결방법은 다음과 같음
+  // 1. StatelessWidget -> StatefulWdiget
 
   const DetailScreen({
     super.key,
@@ -9,6 +21,21 @@ class DetailScreen extends StatelessWidget {
     required this.thumb,
     required this.id,
   });
+
+  @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  late Future<WebtoonDetailModel> webtoon;
+  late Future<List<WebtoonEpisodeModel>> episodes;
+
+  @override
+  void initState() {
+    super.initState();
+    webtoon = ApiService.getToonById(widget.id);
+    episodes = ApiService.getLatestEpisodesById(widget.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +49,7 @@ class DetailScreen extends StatelessWidget {
         foregroundColor: Colors.green,
         centerTitle: true,
         title: Text(
-          title,
+          widget.title,
           style: const TextStyle(fontSize: 24),
         ),
       ),
@@ -35,7 +62,7 @@ class DetailScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Hero(
-                tag: id,
+                tag: widget.id,
                 child: Container(
                   width: 250,
                   // clipbehavior를 적용해야 둥근 모서리가 적용이 된다.
@@ -54,7 +81,7 @@ class DetailScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  child: Image.network(thumb),
+                  child: Image.network(widget.thumb),
                 ),
               ),
             ],
