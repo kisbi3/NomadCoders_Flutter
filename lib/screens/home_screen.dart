@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toonflix/models/webtoon_model.dart';
 import 'package:toonflix/services/api_service.dart';
+import 'package:toonflix/widgets/webtoon_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -58,38 +59,10 @@ class HomeScreen extends StatelessWidget {
       itemBuilder: (context, index) {
         // 0, 1, 2같은 index로만 접근 가능.
         var webtoon = snapshot.data![index];
-        return Column(
-          children: [
-            Container(
-              width: 250,
-              // clipbehavior를 적용해야 둥근 모서리가 적용이 된다.
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                // 그림자 관련 옵션
-                boxShadow: [
-                  BoxShadow(
-                    // blurRadius : 그림자 크기
-                    blurRadius: 15,
-                    // offset : 그림자 위치
-                    offset: const Offset(10, 10),
-                    // color : 그림자 색
-                    color: Colors.black.withOpacity(0.5),
-                  )
-                ],
-              ),
-              child: Image.network(webtoon.thumb),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              webtoon.title,
-              style: const TextStyle(
-                fontSize: 22,
-              ),
-            ),
-          ],
+        return Webtoon(
+          title: webtoon.title,
+          thumb: webtoon.thumb,
+          id: webtoon.id,
         );
       },
       separatorBuilder: (context, index) => const SizedBox(width: 40),

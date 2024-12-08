@@ -1,7 +1,6 @@
 // package를 찾아보려면 pub.dev에서 찾아보자.
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:toonflix/models/webtoon_model.dart';
 
